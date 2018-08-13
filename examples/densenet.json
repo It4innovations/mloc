@@ -1,0 +1,31 @@
+{
+    "name": "mlp",
+    "layers": [
+        {
+            "layer": "Dense",
+            "kwargs": {
+                "units": 12,
+                "activation": "relu",
+                "input_dim": 8
+            }
+        },
+        {
+            "layer": "Dense",
+            "kwargs": {
+                "units": 8,
+                "activation": "relu"
+            }
+        },
+        {
+            "layer": "Dense",
+            "kwargs": {
+                "units": 1,
+                "activation": "sigmoid"
+            }
+        }
+    ],
+    "loss": "binary_crossentropy",
+    "optimizer": "adam",
+    "metrics": ["accuracy"],
+    "model": "Sequential"
+}
