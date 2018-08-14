@@ -31,11 +31,11 @@ curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks/
 ### Model Evaluation
 
 ```bash
-curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks/5b72bbf767134c35bb13b5ad/evaluate --data @denseeval.json
+curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks/5b72bbf767134c35bb13b5ad/evaluate --data @examples/denseeval.json
 ```
 
 ### Query Model
 
 ```bash
-curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks/5b72bbf767134c35bb13b5ad/predict --data @densepredict.json
+curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks/5b72bbf767134c35bb13b5ad/predict --data @examples/densepredict.json
 ```
