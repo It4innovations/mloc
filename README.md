@@ -39,3 +39,7 @@ curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks/
 ```bash
 curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks/5b72bbf767134c35bb13b5ad/predict --data @examples/densepredict.json
 ```
+
+## Documentation
+
+To build documentation run `make html` in the [docs](./docs) directory.
