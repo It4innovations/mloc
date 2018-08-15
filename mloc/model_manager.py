@@ -12,26 +12,22 @@ def model_compile(model_spec):
                   optimizer=model_spec['optimizer'],
                   metrics=model_spec['metrics'])
     return model
-    # TODO set state
 
 
-def model_fit(model_spec, x, y, batch_size=None, epochs=1):
+def model_fit(model_spec, x, y, network_id, _id, batch_size=None, epochs=1, **kwargs):
     # fit(x=None, y=None, batch_size=None, epochs=1, verbose=1,
     # callbacks=None, validation_split=0.0, validation_data=None,
     # shuffle=True, class_weight=None, sample_weight=None,
     # initial_epoch=0, steps_per_epoch=None, validation_steps=None)
-    # TODO check state
     model = model_compile(model_spec)
     model.fit(np.array(x), np.array(y), batch_size=batch_size, epochs=epochs)
-    _model_save(model, str(model_spec['_id']))
-    # TODO change state
+    _model_save(model, _id)
 
 
-def model_evaluate(model_spec, x, y, batch_size=None):
+def model_evaluate(model_spec, x, y, fit_id, batch_size=None, **kwargs):
     # evaluate(x=None, y=None, batch_size=None,
     # verbose=1, sample_weight=None, steps=None)
-    # TODO check state
-    model = _model_load(str(model_spec['_id']))
+    model = _model_load(fit_id)
     model.compile(loss=model_spec['loss'],
                   optimizer=model_spec['optimizer'],
                   metrics=model_spec['metrics'])
@@ -39,10 +35,9 @@ def model_evaluate(model_spec, x, y, batch_size=None):
     return e
 
 
-def model_predict(model_spec, x, batch_size=None):
+def model_predict(model_spec, x, fit_id, network=None, batch_size=None, **kwargs):
     # predict(x, batch_size=None, verbose=0, steps=None)
-    # TODO check state
-    model = _model_load(str(model_spec['_id']))
+    model = _model_load(fit_id)
     model.compile(loss=model_spec['loss'],
                   optimizer=model_spec['optimizer'],
                   metrics=model_spec['metrics'])

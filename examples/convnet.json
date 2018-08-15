@@ -61,5 +61,6 @@
     "loss": "categorical_crossentropy",
     "optimizer": "adam",
     "metrics": ["accuracy"],
-    "model": "Sequential"
+    "model": "Sequential",
+    "_id": "000000000000000000000000"
 }

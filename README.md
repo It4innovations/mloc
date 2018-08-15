@@ -10,34 +10,28 @@ python mloc/mloc.py
 
 ## Examples
 
-### Model Configuration
+### Model Definition
 
 ```bash
 curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks --data @examples/densenet.json
 ```
 
-### Model Initialization
-
-```bash
-curl -X POST http://127.0.0.1:5000/networks/5b72bbf767134c35bb13b5ad/init
-```
-
 ### Model Fitting
 
 ```bash
-curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks/5b72bbf767134c35bb13b5ad/fit --data @examples/densefit.json
+curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/fits --data @examples/densefit.json
 ```
 
 ### Model Evaluation
 
 ```bash
-curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks/5b72bbf767134c35bb13b5ad/evaluate --data @examples/denseeval.json
+curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/evaluations --data @examples/denseeval.json
 ```
 
 ### Query Model
 
 ```bash
-curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/networks/5b72bbf767134c35bb13b5ad/predict --data @examples/densepredict.json
+curl -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/predictions --data @examples/densepredict.json
 ```
 
 ## Documentation

@@ -27,6 +27,11 @@ layer_schema = {
 }
 
 network_schema = {
+    '_id': {
+        'type': 'objectid',
+        'required': False,
+        'empty': False
+    },
     'name': {
         'type': 'string',
         'required': True,
@@ -64,6 +69,94 @@ network_schema = {
     }
 }
 
+fit_schema = {
+    '_id': {
+        'type': 'objectid',
+        'required': False,
+        'empty': False
+    },
+    'network_id': {
+        'type': 'objectid',
+        'data_relation': {
+            'resource': 'networks',
+            'field': '_id',
+            'embeddable': True
+        },
+        'required': True,
+        'empty': False
+    },
+    'x': {
+        'type': 'list',
+        'required': True,
+        'empty': False
+    },
+    'y': {
+        'type': 'list',
+        'required': True,
+        'empty': False
+    },
+    'epochs': {
+        'type': 'integer',
+        'required': False,
+        'empty': False
+    },
+    'batch_size': {
+        'type': 'integer',
+        'required': False,
+        'empty': False
+    }
+}
+
+evaluation_schema = {
+    'fit_id': {
+        'type': 'objectid',
+        'data_relation': {
+            'resource': 'fits',
+            'field': '_id',
+            'embeddable': True
+        },
+        'required': True,
+        'empty': False
+    },
+    'x': {
+        'type': 'list',
+        'required': True,
+        'empty': False
+    },
+    'y': {
+        'type': 'list',
+        'required': True,
+        'empty': False
+    },
+    'batch_size': {
+        'type': 'integer',
+        'required': False,
+        'empty': False
+    }
+}
+
+prediction_schema = {
+    'fit_id': {
+        'type': 'objectid',
+        'data_relation': {
+            'resource': 'fits',
+            'field': '_id',
+            'embeddable': True
+        },
+        'required': True,
+        'empty': False
+    },
+    'x': {
+        'type': 'list',
+        'required': True,
+        'empty': False
+    },
+    'batch_size': {
+        'type': 'integer',
+        'required': False,
+        'empty': False
+    }
+}
 
 DOMAIN = {
     'users': {
@@ -73,6 +166,21 @@ DOMAIN = {
     },
     'networks': {
         'schema': network_schema,
+        'resource_methods': ['GET', 'POST'],
+        'item_methods': ['GET', 'DELETE']
+    },
+    'fits': {
+        'schema': fit_schema,
+        'resource_methods': ['GET', 'POST'],
+        'item_methods': ['GET', 'DELETE']
+    },
+    'evaluations': {
+        'schema': evaluation_schema,
+        'resource_methods': ['GET', 'POST'],
+        'item_methods': ['GET', 'DELETE']
+    },
+    'predictions': {
+        'schema': prediction_schema,
         'resource_methods': ['GET', 'POST'],
         'item_methods': ['GET', 'DELETE']
     }
