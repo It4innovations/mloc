@@ -1,22 +1,16 @@
-from flask import request, jsonify
+from flask import request, jsonify, abort
 from bson import ObjectId
 
-from model_manager import model_init, model_fit, model_evaluate, model_predict
+from model_manager import model_fit, model_evaluate, model_predict
 
 
 def setup_routes(app):
     def find_network(id):
         networks = app.data.driver.db['networks']
         network = networks.find_one({"_id": ObjectId(id)})
-        return network
-
-    @app.route('/networks/<id>/init', methods=['POST'])
-    def network_init(id):
-        network = find_network(id)
         if not network:
-            return 404
-        model_init(network)
-        return jsonify({'success': True})
+            abort(404)
+        return network
 
     @app.route('/networks/<id>/fit', methods=['POST'])
     def network_fit(id):
@@ -24,7 +18,7 @@ def setup_routes(app):
         spec = request.get_json()
         model_fit(network, **spec)
         return jsonify({'success': True})
-    
+
     @app.route('/networks/<id>/evaluate', methods=['POST'])
     def network_evaluate(id):
         network = find_network(id)

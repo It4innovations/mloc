@@ -3,13 +3,16 @@ import keras.layers as kl
 import numpy as np
 
 
-def model_init(model_spec):
+def model_compile(model_spec):
     model = getattr(km, model_spec['model'])()
     for layer in model_spec['layers']:
         l = getattr(kl, layer['layer'])
         model.add(l(**layer['kwargs']))
-    _model_save(model, str(model_spec['_id']))
-    #TODO set state
+    model.compile(loss=model_spec['loss'],
+                  optimizer=model_spec['optimizer'],
+                  metrics=model_spec['metrics'])
+    return model
+    # TODO set state
 
 
 def model_fit(model_spec, x, y, batch_size=None, epochs=1):
@@ -17,21 +20,17 @@ def model_fit(model_spec, x, y, batch_size=None, epochs=1):
     # callbacks=None, validation_split=0.0, validation_data=None,
     # shuffle=True, class_weight=None, sample_weight=None,
     # initial_epoch=0, steps_per_epoch=None, validation_steps=None)
-    #TODO check state
-    model = _model_load(str(model_spec['_id']))
-    model.compile(loss=model_spec['loss'],
-                  optimizer=model_spec['optimizer'],
-                  metrics=model_spec['metrics'])
+    # TODO check state
+    model = model_compile(model_spec)
     model.fit(np.array(x), np.array(y), batch_size=batch_size, epochs=epochs)
     _model_save(model, str(model_spec['_id']))
-    #TODO change state
+    # TODO change state
 
 
 def model_evaluate(model_spec, x, y, batch_size=None):
     # evaluate(x=None, y=None, batch_size=None,
     # verbose=1, sample_weight=None, steps=None)
-    #TODO check state
-    print(model_spec)
+    # TODO check state
     model = _model_load(str(model_spec['_id']))
     model.compile(loss=model_spec['loss'],
                   optimizer=model_spec['optimizer'],
@@ -42,7 +41,7 @@ def model_evaluate(model_spec, x, y, batch_size=None):
 
 def model_predict(model_spec, x, batch_size=None):
     # predict(x, batch_size=None, verbose=0, steps=None)
-    #TODO check state
+    # TODO check state
     model = _model_load(str(model_spec['_id']))
     model.compile(loss=model_spec['loss'],
                   optimizer=model_spec['optimizer'],
