@@ -14,13 +14,15 @@ def model_compile(model_spec):
     return model
 
 
-def model_fit(network, x, y, _id, batch_size=None, epochs=1, **kwargs):
+def model_fit(network, x, y, _id, batch_size=None,
+              epochs=1, verbose=False, **kwargs):
     # fit(x=None, y=None, batch_size=None, epochs=1, verbose=1,
     # callbacks=None, validation_split=0.0, validation_data=None,
     # shuffle=True, class_weight=None, sample_weight=None,
     # initial_epoch=0, steps_per_epoch=None, validation_steps=None)
     model = model_compile(network)
-    model.fit(np.array(x), np.array(y), batch_size=batch_size, epochs=epochs)
+    model.fit(np.array(x), np.array(y), batch_size=batch_size,
+              epochs=epochs, verbose=verbose)
     _model_save(model, _id)
 
 
