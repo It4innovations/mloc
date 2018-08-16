@@ -33,7 +33,8 @@ network_schema = {
     '_id': {
         'type': 'objectid',
         'required': False,
-        'empty': False
+        'empty': False,
+        'unique': True
     },
     'name': {
         'type': 'string',
@@ -76,7 +77,8 @@ fit_schema = {
     '_id': {
         'type': 'objectid',
         'required': False,
-        'empty': False
+        'empty': False,
+        'unique': True
     },
     'network_id': {
         'type': 'objectid',
