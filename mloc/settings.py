@@ -1,3 +1,6 @@
+from backends import Local
+
+
 user_schema = {
     'username': {
         'type': 'string',
@@ -185,3 +188,5 @@ DOMAIN = {
         'item_methods': ['GET', 'DELETE']
     }
 }
+
+BACKEND = Local
