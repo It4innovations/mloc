@@ -3,14 +3,14 @@ import keras.layers as kl
 import numpy as np
 
 
-def model_compile(model_spec):
-    model = getattr(km, model_spec['model'])()
-    for layer in model_spec['layers']:
+def model_compile(network, **kwargs):
+    model = getattr(km, network['model'])()
+    for layer in network['layers']:
         l = getattr(kl, layer['layer'])
         model.add(l(**layer['kwargs']))
-    model.compile(loss=model_spec['loss'],
-                  optimizer=model_spec['optimizer'],
-                  metrics=model_spec['metrics'])
+    model.compile(loss=network['loss'],
+                  optimizer=network['optimizer'],
+                  metrics=network['metrics'])
     return model
 
 
@@ -26,7 +26,7 @@ def model_fit(network, x, y, _id, batch_size=None,
     _model_save(model, _id)
 
 
-def model_evaluate(network, x, y, fit_id, batch_size=None, **kwargs):
+def model_evaluate(network, x, y, _id, fit_id, batch_size=None, **kwargs):
     # evaluate(x=None, y=None, batch_size=None,
     # verbose=1, sample_weight=None, steps=None)
     model = _model_load(fit_id)
@@ -37,7 +37,7 @@ def model_evaluate(network, x, y, fit_id, batch_size=None, **kwargs):
     return e
 
 
-def model_predict(network, x, fit_id, batch_size=None, **kwargs):
+def model_predict(network, x, _id, fit_id, batch_size=None, **kwargs):
     # predict(x, batch_size=None, verbose=0, steps=None)
     model = _model_load(fit_id)
     model.compile(loss=network['loss'],

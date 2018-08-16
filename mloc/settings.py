@@ -70,6 +70,14 @@ network_schema = {
         'type': 'string',
         'required': True,
         'empty': False
+    },
+    'error': {
+        'type': 'string',
+        'readonly': True
+    },
+    'result': {
+        'type': 'string',
+        'readonly': True
     }
 }
 
@@ -79,6 +87,10 @@ fit_schema = {
         'required': False,
         'empty': False,
         'unique': True
+    },
+    'state': {
+        'type': 'string',
+        'readonly': True
     },
     'network_id': {
         'type': 'objectid',
@@ -109,6 +121,14 @@ fit_schema = {
         'type': 'integer',
         'required': False,
         'empty': False
+    },
+    'error': {
+        'type': 'string',
+        'readonly': True
+    },
+    'result': {
+        'type': 'string',
+        'readonly': True
     }
 }
 
@@ -122,6 +142,10 @@ evaluation_schema = {
         },
         'required': True,
         'empty': False
+    },
+    'state': {
+        'type': 'string',
+        'readonly': True
     },
     'x': {
         'type': 'list',
@@ -137,6 +161,14 @@ evaluation_schema = {
         'type': 'integer',
         'required': False,
         'empty': False
+    },
+    'error': {
+        'type': 'string',
+        'readonly': True
+    },
+    'result': {
+        'type': 'string',
+        'readonly': True
     }
 }
 
@@ -151,6 +183,10 @@ prediction_schema = {
         'required': True,
         'empty': False
     },
+    'state': {
+        'type': 'string',
+        'readonly': True
+    },
     'x': {
         'type': 'list',
         'required': True,
@@ -160,6 +196,14 @@ prediction_schema = {
         'type': 'integer',
         'required': False,
         'empty': False
+    },
+    'error': {
+        'type': 'string',
+        'readonly': True
+    },
+    'result': {
+        'type': 'string',
+        'readonly': True
     }
 }
 
@@ -190,5 +234,3 @@ DOMAIN = {
         'item_methods': ['GET', 'DELETE']
     }
 }
-
-BACKEND = Local

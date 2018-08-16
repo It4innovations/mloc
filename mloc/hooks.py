@@ -1,44 +1,39 @@
 from bson import ObjectId
-from flask import abort
 
 from model_manager import model_compile, model_fit, model_evaluate, model_predict
-from settings import BACKEND
-
+from backends import Local
+from db import find_item
 
 def setup_hooks(app):
-    def find_item(resource, item_id):
-        items = app.data.driver.db[resource]
-        item = items.find_one({'_id': ObjectId(item_id)})
-        if not item:
-            abort(404)
-        return item
+    with app.app_context():
+        BACKEND = Local(app.data.driver.db)
 
-    def pre_post_networks(request):
+    def post_post_networks(request, payload):
         network = request.get_json()
-        if '_id' not in network:
-            network['_id'] = ObjectId()
-        BACKEND.execute(model_compile, network)
+        response = payload.get_json()
+        BACKEND.execute(model_compile, _id=response['_id'], resource='networks', network=network)
 
-    def pre_post_fits(request):
+    def post_post_fits(request, payload):
         data = request.get_json()
-        if '_id' not in data:
-            data['_id'] = ObjectId()
-        network = find_item('networks', data['network_id'])
-        BACKEND.execute(model_fit, network=network, **data)
+        response = payload.get_json()
+        network = find_item(app.data.driver.db, 'networks', data['network_id'])
+        BACKEND.execute(model_fit, _id=response['_id'], resource='fits', network=network, **data)
 
-    def pre_post_evaluations(request):
+    def post_post_evaluations(request, payload):
         data = request.get_json()
-        fit = find_item('fits', data['fit_id']) 
-        network = find_item('networks', fit['network_id'])
-        BACKEND.execute(model_evaluate, network=network, **data)
+        response = payload.get_json()
+        fit = find_item(app.data.driver.db, 'fits', data['fit_id']) 
+        network = find_item(app.data.driver.db, 'networks', fit['network_id'])
+        BACKEND.execute(model_evaluate, _id=response['_id'], resource='evaluations', network=network, **data)
 
-    def pre_post_predictions(request):
+    def post_post_predictions(request, payload):
         data = request.get_json()
-        fit = find_item('fits', data['fit_id']) 
-        network = find_item('networks', fit['network_id'])
-        BACKEND.execute(model_predict, network=network, **data)
+        response = payload.get_json()
+        fit = find_item(app.data.driver.db, 'fits', data['fit_id']) 
+        network = find_item(app.data.driver.db, 'networks', fit['network_id'])
+        BACKEND.execute(model_predict, _id=response['_id'], resource='predictions', network=network, **data)
 
-    app.on_pre_POST_networks += pre_post_networks
-    app.on_pre_POST_fits += pre_post_fits
-    app.on_pre_POST_predictions += pre_post_predictions
-    app.on_pre_POST_evaluations += pre_post_evaluations
+    app.on_post_POST_networks += post_post_networks
+    app.on_post_POST_fits += post_post_fits
+    app.on_post_POST_predictions += post_post_predictions
+    app.on_post_POST_evaluations += post_post_evaluations
