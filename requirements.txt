@@ -2,3 +2,4 @@ eve
 tensorflow
 keras
 sphinx
+requests
