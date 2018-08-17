@@ -20,6 +20,8 @@ def setup_hooks(app):
         response = payload.get_json()
         if response['_status'] == 'OK':
             data = request.get_json()
+            if '_id' in data:
+                del data['_id']
             network = find_item(app.data.driver.db, 'networks', data['network_id'])
             BACKEND.execute(model_fit, _id=response['_id'],
                             resource='fits', network=network, **data)
@@ -29,6 +31,8 @@ def setup_hooks(app):
         response = payload.get_json()
         if response['_status'] == 'OK':
             data = request.get_json()
+            if '_id' in data:
+                del data['_id']
             fit = find_item(app.data.driver.db, 'fits', data['fit_id']) 
             network = find_item(app.data.driver.db, 'networks', fit['network_id'])
             BACKEND.execute(model_evaluate, _id=response['_id'],
@@ -39,6 +43,8 @@ def setup_hooks(app):
         response = payload.get_json()
         if response['_status'] == 'OK':
             data = request.get_json()
+            if '_id' in data:
+                del data['_id']
             fit = find_item(app.data.driver.db, 'fits', data['fit_id']) 
             network = find_item(app.data.driver.db, 'networks', fit['network_id'])
             BACKEND.execute(model_predict, _id=response['_id'],
