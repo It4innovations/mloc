@@ -1,7 +1,9 @@
 import keras.models as km
 import keras.layers as kl
 import numpy as np
+import os
 
+from config import WORK_DIR
 
 def model_compile(network, **kwargs):
     model = getattr(km, network['model'])()
@@ -49,13 +51,13 @@ def model_predict(network, x, _id, fit_id, batch_size=None, **kwargs):
 
 def _model_save(model, name):
     model_yaml = model.to_yaml()
-    with open('{}.yaml'.format(name), 'w') as yaml_file:
+    with open(os.path.join(WORK_DIR, '{}.yaml'.format(name)), 'w') as yaml_file:
         yaml_file.write(model_yaml)
     model.save_weights('{}.h5'.format(name))
 
 
 def _model_load(name):
-    with open('{}.yaml'.format(name), 'r') as yaml_file:
+    with open(os.path.join(WORK_DIR, '{}.yaml'.format(name)), 'r') as yaml_file:
         model_yaml = yaml_file.read()
     model = km.model_from_yaml(model_yaml)
     model.load_weights('{}.h5'.format(name))
