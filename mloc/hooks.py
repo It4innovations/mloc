@@ -1,12 +1,11 @@
-from bson import ObjectId
-
 from model_manager import model_compile, model_fit, model_evaluate, model_predict
-from backends import Local
-from db import find_item
+from backends import LocalBackend
+from db import Database
+
 
 def setup_hooks(app):
     with app.app_context():
-        BACKEND = Local(app.data.driver.db)
+        BACKEND = LocalBackend(Database(app))
 
     def post_post_networks(request, payload):
         response = payload.get_json()
@@ -22,7 +21,8 @@ def setup_hooks(app):
             data = request.get_json()
             if '_id' in data:
                 del data['_id']
-            network = find_item(app.data.driver.db, 'networks', data['network_id'])
+            db = Database(app)
+            network = db.find_item_by_id('networks', data['network_id'])
             BACKEND.execute(model_fit, _id=response['_id'],
                             resource='fits', network=network, **data)
         return payload
@@ -33,8 +33,9 @@ def setup_hooks(app):
             data = request.get_json()
             if '_id' in data:
                 del data['_id']
-            fit = find_item(app.data.driver.db, 'fits', data['fit_id']) 
-            network = find_item(app.data.driver.db, 'networks', fit['network_id'])
+            db = Database(app)
+            fit = db.find_item_by_id('fits', data['fit_id'])
+            network = db.find_item_by_id('networks', fit['network_id'])
             BACKEND.execute(model_evaluate, _id=response['_id'],
                             resource='evaluations', network=network, **data)
         return payload
@@ -45,8 +46,9 @@ def setup_hooks(app):
             data = request.get_json()
             if '_id' in data:
                 del data['_id']
-            fit = find_item(app.data.driver.db, 'fits', data['fit_id']) 
-            network = find_item(app.data.driver.db, 'networks', fit['network_id'])
+            db = Database(app)
+            fit = db.find_item_by_id('fits', data['fit_id'])
+            network = db.find_item_by_id('networks', fit['network_id'])
             BACKEND.execute(model_predict, _id=response['_id'],
                             resource='predictions', network=network, **data)
         return payload

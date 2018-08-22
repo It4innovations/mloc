@@ -5,6 +5,7 @@ import os
 
 from config import WORK_DIR
 
+
 def model_compile(network, **kwargs):
     model = getattr(km, network['model'])()
     for layer in network['layers']:

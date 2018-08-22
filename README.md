@@ -13,13 +13,15 @@ python mloc/mloc.py
 ### Dense Network
 
 ```bash
-python examples/dense/dense.py
+cd examples/dense
+python dense.py
 ```
 
 ### Convolutional Network
 
 ```bash
-python examples/conv/conv.py
+cd examples/conv
+python conv.py
 ```
 
 ## Documentation

@@ -1,6 +1,3 @@
-from backends import Local
-
-
 user_schema = {
     'username': {
         'type': 'string',
@@ -209,28 +206,28 @@ prediction_schema = {
 
 DOMAIN = {
     'users': {
-        'schema': user_schema,
         'resource_methods': ['GET', 'POST'],
-        'item_methods': ['GET', 'DELETE']
+        'schema': user_schema,
+        'authentication': None,
     },
     'networks': {
         'schema': network_schema,
         'resource_methods': ['GET', 'POST'],
-        'item_methods': ['GET', 'DELETE']
+        'item_methods': ['GET', 'DELETE'],
     },
     'fits': {
         'schema': fit_schema,
         'resource_methods': ['GET', 'POST'],
-        'item_methods': ['GET', 'DELETE']
+        'item_methods': ['GET', 'DELETE'],
     },
     'evaluations': {
         'schema': evaluation_schema,
         'resource_methods': ['GET', 'POST'],
-        'item_methods': ['GET', 'DELETE']
+        'item_methods': ['GET', 'DELETE'],
     },
     'predictions': {
         'schema': prediction_schema,
         'resource_methods': ['GET', 'POST'],
-        'item_methods': ['GET', 'DELETE']
+        'item_methods': ['GET', 'DELETE'],
     }
 }
