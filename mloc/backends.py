@@ -19,10 +19,10 @@ class LocalBackend:
         q.put((resource, _id, {'state': str(General.RUNNING)}))
         try:
             result = op(_id=_id, **kwargs)
-            data = {'state': str(General.FINISHED), "result": str(result)}
-            q.put((resource, _id, data))
+            result['state'] = str(General.FINISHED)
+            q.put((resource, _id, result))
         except Exception as e:
-            data = {'state': str(General.ERROR), "error": str(e.message)}
+            data = {'state': str(General.ERROR), "error": str(e)}
             q.put((resource, _id, data))
 
     def execute(self, op, _id, resource, **kwargs):
