@@ -1,3 +1,5 @@
+<img align="right" width="35%" src="docs/imgs/logo.svg?sanitize=true">
+
 # MLoC - Machine Learning on Cluster
 
 Machine learning as a Service solution.
