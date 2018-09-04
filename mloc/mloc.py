@@ -7,6 +7,7 @@ from routes import setup_routes
 from db import setup_db_hooks
 from auth import Authenticator
 from settings import LOG_DIR, LOG_LEVEL
+from settings import SERVER_PORT
 
 
 logging.basicConfig(
@@ -17,4 +18,4 @@ app = eve.Eve(auth=Authenticator)
 setup_hooks(app)
 setup_routes(app)
 setup_db_hooks(app)
-app.run(threaded=True, host='0.0.0.0')
+app.run(threaded=False, host='0.0.0.0', port=SERVER_PORT)

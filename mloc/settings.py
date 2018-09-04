@@ -9,6 +9,14 @@ if DEBUG:
 else:
     LOG_LEVEL = logging.INFO
 
+SERVER_PORT = int(os.environ.get('MLOC_PORT', 5000))
+
+MONGO_HOST = os.environ.get('MONGO_HOST', 'localhost')
+MONGO_PORT = int(os.environ.get('MONGO_PORT', 27017))
+MONGO_DB = os.environ.get('MONGO_DB', None)
+MONGO_USERNAME = os.environ.get('MONGO_USERNAME', None)
+MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', None)
+
 
 user_schema = {
     'username': {
