@@ -23,7 +23,8 @@ class Database:
         return self.find_item(resource, '_id', ObjectId(item_id))
 
     def update_item(self, resource, item_id, update):
-        return self.db[resource].find_one_and_update({'_id': ObjectId(item_id)}, {'$set': update})
+        return self.db[resource].find_one_and_update(
+            {'_id': ObjectId(item_id)}, {'$set': update})
 
     def create_item(self, resource, item):
         item['_id'] = self.db[resource].insert_one(item).inserted_id

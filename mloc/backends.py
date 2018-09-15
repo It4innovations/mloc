@@ -19,11 +19,15 @@ class LocalBackend:
         q.put((resource, _id, {'state': str(General.RUNNING)}))
         try:
             result = op(_id=_id, **kwargs)
-            result['state'] = str(General.FINISHED)
-            q.put((resource, _id, result))
+            if type(result) == dict:
+                update = result
+            else:
+                update = {}
+            update['state'] = str(General.FINISHED)
+            q.put((resource, _id, update))
         except Exception as e:
-            data = {'state': str(General.ERROR), "error": str(e)}
-            q.put((resource, _id, data))
+            update = {'state': str(General.ERROR), "error": str(e)}
+            q.put((resource, _id, update))
 
     def execute(self, op, _id, resource, **kwargs):
         p = Process(target=self._execute,

@@ -1,5 +1,5 @@
 from model_manager import model_compile, model_fit, \
-    model_evaluate, model_predict, model_build
+    model_evaluate, model_predict
 from backends import LocalBackend
 from db import Database
 
@@ -37,9 +37,10 @@ def setup_hooks(app):
             db = Database(app)
             fit = db.find_item_by_id('fits', data['fit_id'])
             network = db.find_item_by_id('networks', fit['network_id'])
-            model = model_build(fit['model_json'], fit['model_weights'])
-            BACKEND.execute(model_evaluate, model=model, _id=response['_id'],
-                            resource='evaluations', network=network, **data)
+            BACKEND.execute(
+                model_evaluate, model_json=fit['model_json'],
+                model_weights=fit['model_weights'], _id=response['_id'],
+                resource='evaluations', network=network, **data)
         return payload
 
     def post_post_predictions(request, payload):
@@ -51,9 +52,10 @@ def setup_hooks(app):
             db = Database(app)
             fit = db.find_item_by_id('fits', data['fit_id'])
             network = db.find_item_by_id('networks', fit['network_id'])
-            model = model_build(fit['model_json'], fit['model_weights'])
-            BACKEND.execute(model_predict, model=model, _id=response['_id'],
-                            resource='predictions', network=network, **data)
+            BACKEND.execute(
+                model_predict, model_json=fit['model_json'],
+                model_weights=fit['model_weights'], _id=response['_id'],
+                resource='predictions', network=network, **data)
         return payload
 
     app.on_post_POST_networks += post_post_networks

@@ -14,7 +14,7 @@ class Authenticator(TokenAuth):
         session = database.find_item('sessions', 'token', token)
         if session:
             ts_utc = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)
-            time_delta =  ts_utc - session['timestamp']
+            time_delta = ts_utc - session['timestamp']
             if time_delta.total_seconds() < AUTH_TOKEN_EXPIRATION_SEC:
                 self.set_request_auth_value(session['user_id'])
                 return True

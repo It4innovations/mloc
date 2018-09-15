@@ -47,9 +47,29 @@ data['fit_id'] = fit['_id']
 r = requests.post(url, json=data, headers=headers)
 evaluation = r.json()
 
+while True:
+    time.sleep(1)
+    print('Waiting for evaluations')
+    endpoint = 'evaluations'
+    url = 'http://{}:{}/{}/{}'.format(API_IP, API_PORT, endpoint, evaluation['_id'])
+    r = requests.get(url, headers=headers)
+    print(r.json())
+    if r.json()['state'] == 'finished':
+        break
+
 endpoint = 'predictions'
 url = 'http://{}:{}/{}'.format(API_IP, API_PORT, endpoint)
 data = json.load(open('convpredict.json', 'r'))
 data['fit_id'] = fit['_id']
 r = requests.post(url, json=data, headers=headers)
 prediction = r.json()
+
+while True:
+    time.sleep(1)
+    print('Waiting for predictions.')
+    endpoint = 'predictions'
+    url = 'http://{}:{}/{}/{}'.format(API_IP, API_PORT, endpoint, prediction['_id'])
+    r = requests.get(url, headers=headers)
+    print(r.json())
+    if r.json()['state'] == 'finished':
+        break
