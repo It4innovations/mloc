@@ -36,24 +36,26 @@ def model_fit(network, x, y, batch_size=None,
     return res
 
 
-def model_evaluate(network, x, y, model_json, model_weights, **kwargs):
+def model_evaluate(network, x, y, model_json, model_weights,
+                   verbose=False, **kwargs):
     # evaluate(x=None, y=None, batch_size=None,
     # verbose=1, sample_weight=None, steps=None)
     model = model_build(model_json, model_weights)
     model.compile(loss=network['loss'],
                   optimizer=network['optimizer'],
                   metrics=network['metrics'])
-    e = model.evaluate(np.array(x), np.array(y))
+    e = model.evaluate(np.array(x), np.array(y), verbose=verbose)
     return {'result': e}
 
 
-def model_predict(network, x, model_json, model_weights, **kwargs):
+def model_predict(network, x, model_json, model_weights,
+                  verbose=False, **kwargs):
     # predict(x, batch_size=None, verbose=0, steps=None)
     model = model_build(model_json, model_weights)
     model.compile(loss=network['loss'],
                   optimizer=network['optimizer'],
                   metrics=network['metrics'])
-    p = model.predict(np.array(x))
+    p = model.predict(np.array(x), verbose=verbose)
     return {'result': p.tolist()}
 
 

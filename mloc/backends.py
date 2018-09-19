@@ -1,5 +1,7 @@
 from multiprocessing import Process, Queue
 from threading import Thread
+import logging
+
 from states import General
 
 
@@ -13,11 +15,15 @@ class LocalBackend:
     def state_handler(q, db):
         while True:
             resource, _id, update = q.get()
+            logging.debug(
+                '{} {}: updating {}'.format(resource, _id, update))
             db.update_item(resource, _id, update)
 
     def _execute(self, q, op, _id, resource, **kwargs):
         q.put((resource, _id, {'state': str(General.RUNNING)}))
         try:
+            logging.debug(
+                '{} {}: executing operation {}'.format(resource, _id, op))
             result = op(_id=_id, **kwargs)
             if type(result) == dict:
                 update = result
@@ -26,6 +32,7 @@ class LocalBackend:
             update['state'] = str(General.FINISHED)
             q.put((resource, _id, update))
         except Exception as e:
+            logging.error('{} {}: error {}'.format(resource, _id, str(e)))
             update = {'state': str(General.ERROR), "error": str(e)}
             q.put((resource, _id, update))
 

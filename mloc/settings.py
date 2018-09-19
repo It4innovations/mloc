@@ -1,3 +1,15 @@
+import logging
+import os
+
+
+LOG_DIR = os.environ.get('MLOC_LOG_DIR', '.')
+DEBUG = int(os.environ.get('MLOC_DEBUG', 0))
+if DEBUG:
+    LOG_LEVEL = logging.DEBUG
+else:
+    LOG_LEVEL = logging.INFO
+
+
 user_schema = {
     'username': {
         'type': 'string',

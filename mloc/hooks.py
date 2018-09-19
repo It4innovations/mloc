@@ -1,3 +1,5 @@
+import logging
+
 from model_manager import model_compile, model_fit, \
     model_evaluate, model_predict
 from backends import LocalBackend
@@ -10,6 +12,8 @@ def setup_hooks(app):
 
     def post_post_networks(request, payload):
         response = payload.get_json()
+        logging.debug(
+            'triggered post POST networks: {} {}'.format(request, response))
         if response['_status'] == 'OK':
             network = request.get_json()
             BACKEND.execute(model_compile, _id=response['_id'],
@@ -18,6 +22,8 @@ def setup_hooks(app):
 
     def post_post_fits(request, payload):
         response = payload.get_json()
+        logging.debug(
+            'triggered post POST fits: {} {}'.format(request, response))
         if response['_status'] == 'OK':
             data = request.get_json()
             if '_id' in data:
@@ -30,6 +36,8 @@ def setup_hooks(app):
 
     def post_post_evaluations(request, payload):
         response = payload.get_json()
+        logging.debug(
+            'triggered post POST evaluations: {} {}'.format(request, response))
         if response['_status'] == 'OK':
             data = request.get_json()
             if '_id' in data:
@@ -45,6 +53,8 @@ def setup_hooks(app):
 
     def post_post_predictions(request, payload):
         response = payload.get_json()
+        logging.debug(
+            'triggered post POST predictions: {} {}'.format(request, response))
         if response['_status'] == 'OK':
             data = request.get_json()
             if '_id' in data:
