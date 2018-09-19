@@ -2,14 +2,15 @@ import logging
 import os
 
 
+SERVER_PORT = int(os.environ.get('MLOC_PORT', 5000))
+AUTH_TOKEN_EXPIRATION_SEC = int(os.environ.get('MLOC_AUTH_TOKEN_EXP', 3600))
+
 LOG_DIR = os.environ.get('MLOC_LOG_DIR', '.')
 DEBUG = int(os.environ.get('MLOC_DEBUG', 0))
 if DEBUG:
     LOG_LEVEL = logging.DEBUG
 else:
     LOG_LEVEL = logging.INFO
-
-SERVER_PORT = int(os.environ.get('MLOC_PORT', 5000))
 
 MONGO_HOST = os.environ.get('MONGO_HOST', 'localhost')
 MONGO_PORT = int(os.environ.get('MONGO_PORT', 27017))

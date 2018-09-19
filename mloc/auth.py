@@ -3,7 +3,7 @@ import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from uuid import uuid4
 from flask import current_app as app
-from config import AUTH_TOKEN_EXPIRATION_SEC
+from settings import AUTH_TOKEN_EXPIRATION_SEC
 import datetime
 import pytz
 
