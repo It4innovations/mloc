@@ -26,6 +26,10 @@ cd examples/conv
 python conv.py
 ```
 
+## Architecture
+
+<img src="docs/imgs/arch.svg?sanitize=true">
+
 ## Documentation
 
 To build documentation run `make html` in the [docs](./docs) directory.
