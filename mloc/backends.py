@@ -2,7 +2,7 @@ from multiprocessing import Process, Queue
 from threading import Thread
 import logging
 
-from states import General
+from .states import General
 
 
 class LocalBackend:

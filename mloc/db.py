@@ -1,6 +1,6 @@
 from bson import ObjectId
 
-from auth import hash_password
+from .common import hash_password
 
 
 def setup_db_hooks(app):

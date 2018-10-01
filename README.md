@@ -7,7 +7,7 @@ Machine learning as a Service solution.
 ## Quickstart
 
 ```bash
-python mloc/mloc.py
+python -m mloc
 ```
 
 ## Examples

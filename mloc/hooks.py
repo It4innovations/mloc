@@ -1,9 +1,9 @@
 import logging
 
-from model_manager import model_compile, model_fit, \
+from .model_manager import model_compile, model_fit, \
     model_evaluate, model_predict
-from backends import LocalBackend
-from db import Database
+from .backends import LocalBackend
+from .db import Database
 
 
 def setup_hooks(app):

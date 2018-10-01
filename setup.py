@@ -14,4 +14,6 @@ setup(name='mloc',
       author_email='cima.vojtech@gmail.com',
       license='MIT',
       packages=find_packages(),
-      install_requires=requirements)
+      install_requires=requirements,
+      setup_requires=['pytest-runner',],
+      tests_require=['pytest',])

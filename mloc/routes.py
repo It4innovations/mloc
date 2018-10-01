@@ -1,8 +1,8 @@
-from auth import check_password, generate_token
-from db import Database
-
 import datetime
 from flask import request, abort, jsonify
+
+from .common import check_password, generate_token
+from .db import Database
 
 
 def setup_routes(app):
