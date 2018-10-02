@@ -2,6 +2,7 @@ import os
 import sys
 from multiprocessing import Process
 import pytest
+import time
 
 PYTEST_DIR = os.path.dirname(__file__)
 ROOT = os.path.dirname(os.path.dirname(PYTEST_DIR))
@@ -18,6 +19,7 @@ class Env:
 
     def start(self):
         self.p.start()
+        time.sleep(2)
 
     def stop(self):
         if not self.p:
