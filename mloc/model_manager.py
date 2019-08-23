@@ -1,7 +1,8 @@
-import keras.models as km
-import keras.layers as kl
-import numpy as np
 import pickle
+
+import keras.layers as kl
+import keras.models as km
+import numpy as np
 
 
 def _model_compile(network, **kwargs):

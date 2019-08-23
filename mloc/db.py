@@ -13,8 +13,12 @@ def setup_db_hooks(app):
 
 
 class Database:
-    def __init__(self, app):
-        self.db = app.data.driver.db
+    def __init__(self, db):
+        self.db = db
+    
+    @classmethod
+    def from_app(cls, app):
+        return cls(app.data.driver.db)
 
     def find_item(self, resource, field_name, field_value):
         return self.db[resource].find_one({field_name: field_value})

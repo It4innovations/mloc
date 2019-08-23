@@ -3,3 +3,5 @@ tensorflow
 keras
 sphinx
 requests
+pymongo
+paramiko

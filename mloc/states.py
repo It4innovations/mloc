@@ -8,6 +8,7 @@ class General(Enum):
     RUNNING = 'running'
     ERROR = 'error'
     FINISHED = 'finished'
+    QUEUED = 'queued'
 
 
 class NetworkState(Enum):

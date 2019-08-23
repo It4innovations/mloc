@@ -1,15 +1,16 @@
+import datetime
+
+import pytz
 from eve.auth import TokenAuth
 from flask import current_app as app
-import datetime
-import pytz
 
-from .settings import AUTH_TOKEN_EXPIRATION_SEC
 from .db import Database
+from .settings import AUTH_TOKEN_EXPIRATION_SEC
 
 
 class Authenticator(TokenAuth):
     def check_auth(self, token, allowed_roles, resource, method):
-        database = Database(app)
+        database = Database.from_app(app)
         session = database.find_item('sessions', 'token', token)
         if session:
             ts_utc = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)

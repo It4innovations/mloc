@@ -1,5 +1,6 @@
 import datetime
-from flask import request, abort, jsonify
+
+from flask import abort, jsonify, request
 
 from .common import check_password, generate_token
 from .db import Database
@@ -13,7 +14,7 @@ def setup_routes(app):
         password = data.get('password', None)
 
         if username and password:
-            db = Database(app)
+            db = Database.from_app(app)
             user = db.find_item('users', 'username', username)
             if check_password(user, password):
                 token = generate_token()

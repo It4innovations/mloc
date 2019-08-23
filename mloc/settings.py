@@ -1,7 +1,6 @@
 import logging
 import os
 
-
 SERVER_PORT = int(os.environ.get('MLOC_PORT', 5000))
 AUTH_TOKEN_EXPIRATION_SEC = int(os.environ.get('MLOC_AUTH_TOKEN_EXP', 3600))
 
@@ -14,9 +13,16 @@ else:
 
 MONGO_HOST = os.environ.get('MONGO_HOST', 'localhost')
 MONGO_PORT = int(os.environ.get('MONGO_PORT', 27017))
-MONGO_DB = os.environ.get('MONGO_DB', None)
+MONGO_DBNAME = os.environ.get('MONGO_DBNAME', None)
 MONGO_USERNAME = os.environ.get('MONGO_USERNAME', None)
 MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', None)
+
+
+PBS_SSH_PORT = int(os.environ.get('PBS_SSH_PORT', 22))
+PBS_SSH_USERNAME = os.environ.get('PBS_SSH_USERNAME', None)
+PBS_HOSTNAME = os.environ.get('PBS_HOSTNAME', None)
+PBS_SSH_KEY_PATH = os.environ.get('PBS_SSH_KEY_PATH', None)
+PBS_SSH_KEY_PASSWORD = os.environ.get('PBS_SSH_KEY_PASSWORD', None)
 
 
 user_schema = {
@@ -147,6 +153,11 @@ fit_schema = {
     'result': {
         'type': 'string',
         'readonly': True
+    },
+    'backend': {
+        'type': 'string',
+        'required': True,
+        'allowed': ['local', 'pbs']
     }
 }
 

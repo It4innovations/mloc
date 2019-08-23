@@ -1,14 +1,15 @@
 import logging
 
-from .model_manager import model_compile, model_fit, \
-    model_evaluate, model_predict
 from .backends import LocalBackend
 from .db import Database
+from .model_manager import (model_compile, model_evaluate, model_fit,
+                            model_predict)
+from .pbs import PBS
 
 
 def setup_hooks(app):
     with app.app_context():
-        BACKEND = LocalBackend(Database(app))
+        BACKEND = LocalBackend(Database.from_app(app))
 
     def post_post_networks(request, payload):
         response = payload.get_json()
@@ -26,12 +27,16 @@ def setup_hooks(app):
             'triggered post POST fits: {} {}'.format(request, response))
         if response['_status'] == 'OK':
             data = request.get_json()
-            if '_id' in data:
-                del data['_id']
-            db = Database(app)
-            network = db.find_item_by_id('networks', data['network_id'])
-            BACKEND.execute(model_fit, _id=response['_id'],
-                            resource='fits', network=network, **data)
+            if data['backend'] == 'local':
+                if '_id' in data:
+                    del data['_id']
+                db = Database.from_app(app)
+                network = db.find_item_by_id('networks', data['network_id'])
+                BACKEND.execute(model_fit, _id=response['_id'],
+                                resource='fits', network=network, **data)
+            elif data['backend'] == 'pbs':
+                BACKEND.execute_pbs(PBS.submit_fit, _id=response['_id'],
+                                    resource='fits' **data)
         return payload
 
     def post_post_evaluations(request, payload):
@@ -42,7 +47,7 @@ def setup_hooks(app):
             data = request.get_json()
             if '_id' in data:
                 del data['_id']
-            db = Database(app)
+            db = Database.from_app(app)
             fit = db.find_item_by_id('fits', data['fit_id'])
             network = db.find_item_by_id('networks', fit['network_id'])
             BACKEND.execute(
@@ -59,7 +64,7 @@ def setup_hooks(app):
             data = request.get_json()
             if '_id' in data:
                 del data['_id']
-            db = Database(app)
+            db = Database.from_app(app)
             fit = db.find_item_by_id('fits', data['fit_id'])
             network = db.find_item_by_id('networks', fit['network_id'])
             BACKEND.execute(
