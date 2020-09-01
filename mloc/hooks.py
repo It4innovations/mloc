@@ -5,6 +5,7 @@ from .db import Database
 from .model_manager import (model_compile, model_evaluate, model_fit,
                             model_predict)
 from .pbs import PBS
+from .heappe import Heappe
 
 
 def setup_hooks(app):
@@ -36,7 +37,10 @@ def setup_hooks(app):
                                 resource='fits', network=network, **data)
             elif data['backend'] == 'pbs':
                 BACKEND.execute_pbs(PBS.submit_fit, _id=response['_id'],
-                                    resource='fits' **data)
+                                    resource='fits', **data)
+            elif data['backend'] == 'heappe':
+                BACKEND.execute_pbs(Heappe.submit_fit, _id=response['_id'],
+                                    resource='fits', **data)
         return payload
 
     def post_post_evaluations(request, payload):

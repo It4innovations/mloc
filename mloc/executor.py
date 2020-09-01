@@ -1,7 +1,5 @@
 import argparse
-import os
 
-from bson.objectid import ObjectId
 from pymongo import MongoClient
 
 from .backends import LocalBackend
@@ -28,7 +26,7 @@ db = client[MONGO_DBNAME]
 db = Database(db)
 
 data = {}
-fit = db.find_item_by_id('fits' ,fit_id)
+fit = db.find_item_by_id('fits', fit_id)
 network = db.find_item_by_id('networks', fit['network_id'])
 backend = LocalBackend(db, True)
 backend.execute(model_fit, resource='fits', network=network, **fit)

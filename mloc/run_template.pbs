@@ -1,0 +1,9 @@
+#!/bin/bash
+ml Python/3.6.1
+ml OpenMPI
+export MONGO_HOST={mongo_host}
+export MONGO_PORT={mongo_port}
+export MONGO_DBNAME={mongo_dbname}
+export MONGO_USERNAME={mongo_username}
+export MONGO_PASSWORD={mongo_password}
+python3 -m mloc.executor {fit_id}

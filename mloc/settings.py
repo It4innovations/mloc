@@ -25,6 +25,10 @@ PBS_SSH_KEY_PATH = os.environ.get('PBS_SSH_KEY_PATH', None)
 PBS_SSH_KEY_PASSWORD = os.environ.get('PBS_SSH_KEY_PASSWORD', None)
 
 
+HEAPPE_USERNAME = os.environ.get('HEAPPE_USERNAME', None)
+HEAPPE_PASSWORD = os.environ.get('HEAPPE_PASSWORD', None)
+
+
 user_schema = {
     'username': {
         'type': 'string',
@@ -157,7 +161,7 @@ fit_schema = {
     'backend': {
         'type': 'string',
         'required': True,
-        'allowed': ['local', 'pbs']
+        'allowed': ['local', 'pbs', 'heappe']
     }
 }
 
