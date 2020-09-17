@@ -2,7 +2,8 @@ import json
 
 import heappeac as hp
 
-from .settings import (HEAPPE_USERNAME, HEAPPE_PASSWORD)
+from .settings import (HEAPPE_USERNAME, HEAPPE_PASSWORD, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_PASSWORD,
+                       MONGO_USERNAME)
 
 
 class Heappe:
@@ -30,7 +31,7 @@ class Heappe:
         return session_code
 
     @staticmethod
-    def _create_job(session_code, client=None):
+    def _create_job(session_code, fit_id, client=None):
         api_instance = client if client else Heappe._get_client()
         jm = hp.api.JobManagementApi(api_instance)
         job_spec_body = {
@@ -57,12 +58,41 @@ class Heappe:
                             "progressFile": "stdprog",
                             "logFile": "stdlog",
                             "commandTemplateId": 2,
-                            "environmentVariables": [],
+                            "environmentVariables": [
+                                {
+                                    "name": "MONGO_HOST",
+                                    "value": MONGO_HOST
+                                },
+                                {
+                                    "name": "MONGO_PORT",
+                                    "value": MONGO_PORT
+                                },
+                                {
+                                    "name": "MONGO_DBNAME",
+                                    "value": MONGO_DBNAME
+                                },
+                                {
+                                    "name": "MONGO_USERNAME",
+                                    "value": MONGO_USERNAME
+                                },
+                                {
+                                    "name": "MONGO_PASSWORD",
+                                    "value": MONGO_PASSWORD
+                                },
+                                {
+                                    "name": "HEAPPE_USERNAME",
+                                    "value": HEAPPE_USERNAME
+                                },
+                                {
+                                    "name": "HEAPPE_PASSWORD",
+                                    "value": HEAPPE_PASSWORD
+                                }
+                            ],
                             "dependsOn": [],
                             "templateParameterValues": [
                                 {
-                                    "commandParameterIdentifier": "inputParam",
-                                    "parameterValue": "test"
+                                    "commandParameterIdentifier": "fit_id",
+                                    "parameterValue": fit_id
                                 }
                             ]
                         }
@@ -95,5 +125,5 @@ class Heappe:
     def submit_fit(fit_id, **kwargs):
         client = Heappe._get_client()
         session_code = Heappe._authenticate(client)
-        job_id = Heappe._create_job(session_code, client)
+        job_id = Heappe._create_job(session_code, fit_id, client)
         Heappe._submit_job(job_id, session_code, client)
