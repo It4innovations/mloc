@@ -37,3 +37,8 @@ See MLoC API endpoints on [SwaggerHub](https://app.swaggerhub.com/apis-docs/it4i
 ## Documentation
 
 To build documentation run `make html` in the [docs](./docs) directory.
+
+## Acknowledgement
+
+This project has received funding from the programme
+"Support for Science and Research in the Moravian-Silesian Region" (RRC/10/2017).
