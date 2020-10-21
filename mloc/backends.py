@@ -25,7 +25,6 @@ class LocalBackend:
     def _execute(self, q, op, _id, resource, **kwargs):
         q.put((resource, _id, {'state': str(General.RUNNING)}))
         try:
-            print("!!!!")
             logging.debug(
                 '{} {}: executing operation {}'.format(resource, _id, op))
             result = op(_id=_id, **kwargs)
@@ -35,7 +34,6 @@ class LocalBackend:
                 update = {}
             update['state'] = str(General.FINISHED)
             q.put((resource, _id, update))
-            print("#######")
         except Exception as e:
             logging.error('{} {}: error {}'.format(resource, _id, str(e)))
             update = {'state': str(General.ERROR), "error": str(e)}
@@ -50,7 +48,6 @@ class LocalBackend:
     def _execute_pbs(self, q, op, _id, resource, **kwargs):
         q.put((resource, _id, {'state': str(General.QUEUED)}))
         try:
-            print("!!!!PBS")
             logging.debug(
                 '{} {}: executing operation {}'.format(resource, _id, op))
             result = op(_id=_id, **kwargs)
@@ -59,7 +56,6 @@ class LocalBackend:
             else:
                 update = {}
             q.put((resource, _id, update))
-            print("#######PBS")
         except Exception as e:
             logging.error('{} {}: error {}'.format(resource, _id, str(e)))
             update = {'state': str(General.ERROR), "error": str(e)}
@@ -74,7 +70,6 @@ class LocalBackend:
     def _execute_heappe(self, q, op, _id, resource, **kwargs):
         q.put((resource, _id, {'state': str(General.QUEUED)}))
         try:
-            print("!!!!HEAPPE")
             logging.debug(
                 '{} {}: executing operation {}'.format(resource, _id, op))
             result = op(_id=_id, **kwargs)
@@ -83,7 +78,6 @@ class LocalBackend:
             else:
                 update = {}
             q.put((resource, _id, update))
-            print("#######HEAPPE")
         except Exception as e:
             logging.error('{} {}: error {}'.format(resource, _id, str(e)))
             update = {'state': str(General.ERROR), "error": str(e)}
